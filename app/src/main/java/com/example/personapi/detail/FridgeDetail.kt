@@ -1,4 +1,4 @@
-package com.example.personapi
+package com.example.personapi.detail
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -8,27 +8,23 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.personapi.databinding.PersonDetailFragmentBinding
+import com.example.personapi.R
+import com.example.personapi.databinding.FridgeDetailFragmentBinding
+import com.example.personapi.view_models.FridgeDetailViewModel
 
-class PersonDetail: Fragment() {
+class FridgeDetail: Fragment() {
+
     companion object {
-        fun newInstance() = PersonDetail()
+        fun newInstance() = FridgeDetail()
     }
 
-    private lateinit var viewModel: PersonDetailViewModel
+    private lateinit var viewModel: FridgeDetailViewModel
 
-    // Binding for xml (PersonDetailFragmentBinding only exists after we build the project)
-    private lateinit var binding: PersonDetailFragmentBinding
+    private lateinit var binding: FridgeDetailFragmentBinding
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        // Create binding
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater,
-            R.layout.person_detail_fragment,
+            R.layout.fridge_detail_fragment,
             container,
             false)
 
@@ -36,20 +32,19 @@ class PersonDetail: Fragment() {
         return binding.root
     }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         activity?.let {
-            viewModel = ViewModelProviders.of(it).get(PersonDetailViewModel::class.java)
+            viewModel = ViewModelProviders.of(it).get(FridgeDetailViewModel::class.java)
         }
 
         // Observe changes in the ViewModel
-        viewModel.person.observe(this, Observer {
-                person ->
+        viewModel.fridge_item.observe(this, Observer {
+                fridge_item ->
 
             // Check if person exists
-            person?.let {
+            fridge_item?.let {
                 // Set the binding ViewModel
                 binding.viewModel = it
             }

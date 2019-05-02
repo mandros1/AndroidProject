@@ -1,17 +1,17 @@
 package com.example.personapi.models
 
-class RecipeItemViewModel(val recipe: Recipe){
+class RecipeItemViewModel(val recipe: RecipesValue){
     val description: String
     val imgUrl: String
-    val ingredients: List<String>
+    val ingredients: List<Ingredient>
     val instructions: List<String>
     val name: String
-    val rating: Int
-    val ratings: List<Int>
+    val rating: Long
+    val ratings: List<Long>
 
     init {
         this.description = recipe.description
-        this.imgUrl = recipe.imgUrl
+        this.imgUrl = recipe.imgURL
         this.ingredients = recipe.ingredients
         this.instructions = recipe.instructions
         this.name = recipe.name

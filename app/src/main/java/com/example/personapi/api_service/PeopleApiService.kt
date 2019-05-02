@@ -1,4 +1,4 @@
-package com.example.personapi
+package com.example.personapi.api_service
 
 import com.example.personapi.models.Request
 import io.reactivex.Observable

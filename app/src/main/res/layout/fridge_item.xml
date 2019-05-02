@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data class="FridgeItemViewBinding">
+        <variable name="viewModel"
+                  type="com.example.personapi.models.FridgeItemViewModel"
+        />
+    </data>
+
+    <android.support.v7.widget.CardView android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal"
+                      android:layout_gravity="center"
+                      android:gravity="center">
+
+            <LinearLayout android:layout_width="0dp"
+                          android:layout_weight="0.6"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical"
+                          android:layout_marginLeft="16dp">
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/fridge_item_name_tv"
+                        android:text="@{viewModel.name}"
+                        android:textSize="30sp"/>
+
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/fridge_item_data_tv"
+                          android:paddingBottom="10dp"
+                          android:paddingTop="10dp"
+                          android:background="@drawable/border_set"
+                          android:text="@{`` + viewModel.amount + ` ` + viewModel.unit}"
+                          android:textSize="24sp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</layout>

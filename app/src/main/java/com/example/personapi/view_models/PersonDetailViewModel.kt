@@ -1,4 +1,4 @@
-package com.example.personapi
+package com.example.personapi.view_models
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel

@@ -6,16 +6,24 @@
 
     <application
             android:allowBackup="true"
-            android:icon="@mipmap/ic_person"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_person_round"
+            android:icon="@mipmap/ic_logo"
+            android:label="My CookBook"
+            android:roundIcon="@mipmap/ic_logo_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".IngredientActivity">
+        <activity android:name=".FridgeActivity">
+        </activity>
+        <activity android:name=".AddIngredientActivity">
+        </activity>
+        <activity
+                android:name=".IngredientActivity"
+                android:label="Ingredients List"
+                android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
                 android:name=".MainActivity"
-                android:configChanges="orientation|screenSize">
+                android:configChanges="orientation|screenSize"
+                android:label="Recipe List">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

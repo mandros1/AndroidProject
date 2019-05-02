@@ -26,17 +26,45 @@ data class Name (
     val last: String
 )
 
+typealias Ingredients = HashMap<String, IngredientElement>
+
+data class IngredientElement (
+    val calories: String,
+    val name: String,
+    val unit: String
+)
+
+
+typealias Recipes = HashMap<String, RecipesValue>
+
+data class RecipesValue (
+    val description: String,
+    val imgURL: String,
+    val ingredients: List<Ingredient>,
+    val instructions: List<String>,
+    val name: String,
+    val rating: Long,
+    val ratings: List<Long>
+)
+
 data class Ingredient (
-    val calories: Int,
+    val amount: String,
     val name: String
 )
 
-data class Recipe (
-    val description: String,
-    val imgUrl: String,
-    val ingredients: List<String>,
-    val instructions: List<String>,
+
+typealias ShoppingList = HashMap<String, ShoppingListValue>
+
+data class ShoppingListValue (
+    val amount: String,
     val name: String,
-    val rating: Int,
-    val ratings: List<Int>
+    val unit: String
+)
+
+typealias FridgeItems = HashMap<String, FridgeItemsValue>
+
+data class FridgeItemsValue (
+    val amount: String,
+    val name: String,
+    val unit: String
 )

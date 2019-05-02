@@ -1,13 +1,19 @@
 package com.example.personapi
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
+import android.support.v7.app.ActionBar
 import android.widget.Toast
+import com.example.personapi.adapters.PersonAdapter
+import com.example.personapi.api_service.PeopleApiService
 import com.example.personapi.models.Name
 import com.example.personapi.models.Person
 import com.example.personapi.models.PersonItemViewModel
+import com.example.personapi.view_models.PersonDetailViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -17,6 +23,7 @@ import kotlinx.android.synthetic.main.person_detail_fragment.*
 class MainActivity : AppCompatActivity() {
 
     private var disposable: Disposable? = null
+    lateinit var toolbar: ActionBar
 
     private val personApiService by lazy {
         PeopleApiService.create()
@@ -24,10 +31,44 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var personDetailViewModel: PersonDetailViewModel
 
+
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId){
+            R.id.navigation_recipes -> {
+                val myIntent = Intent(baseContext, MainActivity::class.java)
+                startActivity(myIntent)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_ingredients -> {
+                val myIntent = Intent(baseContext, IngredientActivity::class.java)
+                startActivity(myIntent)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_favorites -> {
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_shopping -> {
+
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_fridge -> {
+                val myIntent = Intent(baseContext, FridgeActivity::class.java)
+                startActivity(myIntent)
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        toolbar = supportActionBar!!
+        val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)
+        bottomNavigation.setOnNavigationItemSelectedListener (mOnNavigationItemSelectedListener)
 
         personDetailViewModel = ViewModelProviders.of(this).get(PersonDetailViewModel::class.java)
 
@@ -39,8 +80,7 @@ class MainActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { result -> //Toast.makeText(this, "Got the data like the boss", Toast.LENGTH_SHORT).show()
-
+                { result ->
                     val personList: MutableList<PersonItemViewModel> = result.results.map {
                         PersonItemViewModel(it)
                     }.toMutableList()
