@@ -11,9 +11,18 @@
             android:roundIcon="@mipmap/ic_logo_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".FridgeActivity">
+        <activity android:name=".ShoppingListActivity"
+                  android:label="Shopping Cart">
         </activity>
-        <activity android:name=".AddIngredientActivity">
+        <activity
+                android:name=".FridgeActivity"
+                android:configChanges="orientation|screenSize"
+                android:label="My Fridge">
+        </activity>
+        <activity
+                android:name=".AddIngredientActivity"
+                android:configChanges="orientation|screenSize"
+                android:label="Ingredients List">
         </activity>
         <activity
                 android:name=".IngredientActivity"
@@ -26,14 +35,16 @@
                 android:label="Recipe List">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".IngredientActivity">
+        <activity android:name=".LoginActivity"
+            android:label="MyCookBook Login"
+        >
         </activity>
-        <activity android:name=".LoginActivity">
-        </activity>
-        <activity android:name=".RegisterActivity">
+        <activity android:name=".RegisterActivity"
+                  android:label="MyCookBook Register">
         </activity>
     </application>
 

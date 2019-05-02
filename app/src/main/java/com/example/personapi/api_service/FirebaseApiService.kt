@@ -43,7 +43,7 @@ interface FirebaseApiService {
     @GET("shopping_cart/shopping_items.json")
     fun getShoppingCart(): Observable<ShoppingList>
 
-    @POST("fridge/fridge_ingredients.json")
+    @POST("shopping_cart/shopping_items.json")
     @Headers(
         "Accept-Encoding: gzip,deflate",
         "Content-Type: application/x-www-form-urlencoded",
@@ -53,6 +53,10 @@ interface FirebaseApiService {
     fun insertShoppingItem(
         @Body body: HashMap<String, String>
     ): Call<String>
+
+
+    @DELETE("shopping_cart/shopping_items.json")
+    fun deleteAllShoppingItems(): Call<String?>
 
 
     // Fridge items handling
@@ -71,21 +75,7 @@ interface FirebaseApiService {
     ): Call<String>
 
     @DELETE("fridge/fridge_ingredients.json")
-    fun deleteAllFridgeItems(): Call<String>
-
-    @DELETE("fridge/fridge_ingredients.json")
-    fun deleteFridgeItem(): Response<*>
-
-
-    @DELETE("fridge/fridge_ingredients.json")
-    @Headers(
-        "Accept-Encoding: gzip,deflate",
-        "Content-Type: application/x-www-form-urlencoded",
-        "Accept: Application/Json",
-        "User-Agent: Retrofit 2.3.0"
-    )
-    fun deleteFridgeItems(
-    ): Call<String>
+    fun deleteAllFridgeItems(): Call<String?>
 
 
     @PUT("fridge/fridge_ingredients.json")

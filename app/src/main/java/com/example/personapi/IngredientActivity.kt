@@ -17,8 +17,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.example.personapi.adapters.FridgeAdapter
 import com.example.personapi.adapters.IngredientAdapter
 import com.example.personapi.api_service.FirebaseApiService
+import com.example.personapi.models.FridgeItemViewModel
 import com.example.personapi.models.FridgeItemsValue
 import com.example.personapi.models.IngredientsItemViewModel
 import com.example.personapi.models.ShoppingListValue
@@ -26,6 +28,7 @@ import com.example.personapi.view_models.IngredientDetailViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_fridge.*
 import kotlinx.android.synthetic.main.activity_ingredient.*
 import kotlinx.android.synthetic.main.ingredient_detail_fragment.*
 import retrofit2.Call
@@ -81,7 +84,8 @@ class IngredientActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_shopping -> {
-
+                val myIntent = Intent(baseContext, ShoppingListActivity::class.java)
+                startActivity(myIntent)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_fridge -> {
@@ -114,6 +118,8 @@ class IngredientActivity : AppCompatActivity() {
                 { error -> Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show() }
             )
     }
+
+    override fun onBackPressed() {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
@@ -170,6 +176,7 @@ class IngredientActivity : AppCompatActivity() {
                 val unit = unit_tv.text.toString()
 
                 val map: HashMap<String, String> = hashMapOf("amount" to amount, "name" to name, "unit" to unit)
+
                 firebaseApi.insertFridgeItem(map).enqueue(object: Callback<String> {
                     override fun onFailure(call: Call<String>, t: Throwable) {
                         println(t.message)
@@ -178,9 +185,12 @@ class IngredientActivity : AppCompatActivity() {
                         println(response.message())
                     }
                 })
+
                 name_tv.setText("")
                 unit_tv.setText("")
                 amount_et.setText("")
+                calories_tv.setText("")
+                amount_et.visibility = View.INVISIBLE
                 Toast.makeText(applicationContext, "Successfully stored the ingredient object to your fridge", Toast.LENGTH_LONG).show()
             }else {
                 Toast.makeText(this@IngredientActivity,
@@ -208,7 +218,12 @@ class IngredientActivity : AppCompatActivity() {
                 name_tv.setText("")
                 unit_tv.setText("")
                 amount_et.setText("")
-                Toast.makeText(applicationContext, "Successfully stored the ingredient object to your shopping list", Toast.LENGTH_LONG).show()
+                calories_tv.setText("")
+                amount_et.visibility = View.INVISIBLE
+                Toast.makeText(applicationContext,
+                    "Successfully stored the ingredient object to your shopping list",
+                    Toast.LENGTH_LONG)
+                    .show()
 
             }else {
                 Toast.makeText(this@IngredientActivity,

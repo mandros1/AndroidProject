@@ -51,7 +51,8 @@ class FridgeActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_shopping -> {
-
+                val myIntent = Intent(baseContext, ShoppingListActivity::class.java)
+                startActivity(myIntent)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_fridge -> {
@@ -62,6 +63,8 @@ class FridgeActivity : AppCompatActivity() {
         }
         false
     }
+
+    override fun onBackPressed() {}
 
     override fun onResume() {
         super.onResume()
@@ -81,21 +84,15 @@ class FridgeActivity : AppCompatActivity() {
                         }, ingredientList)
                     }
                 },
-                { error -> Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show() }
+                { error -> Toast.makeText(this, "There are no ingredients in your fridge", Toast.LENGTH_SHORT).show() }
             )
     }
 
     fun onCellTap(item: FridgeItemViewModel) {
-        if(item.name != "") {
-            remove_btn.isClickable = true
-            remove_btn.visibility = View.VISIBLE
-            desc_tv.visibility = View.VISIBLE
-            fridgeDetailViewModel.fridge_item.postValue(item)
-        }else {
-            remove_btn.isClickable = false
-            remove_btn.visibility = View.INVISIBLE
-            desc_tv.visibility = View.INVISIBLE
-        }
+        remove_btn.isClickable = true
+        remove_btn.visibility = View.VISIBLE
+        name_tv.visibility = View.VISIBLE
+        fridgeDetailViewModel.fridge_item.postValue(item)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,25 +110,36 @@ class FridgeActivity : AppCompatActivity() {
             val unit = unit_tv.text.toString()
             val name = name_tv.text.toString()
 
+            remove_btn.visibility = View.INVISIBLE
+            name_tv.visibility = View.INVISIBLE
+
             var items_list: MutableList<FridgeItemsValue>
+
             firebaseApi.getFridgeItems()
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    {
-                        result -> items_list = result.map { it.value }.toMutableList()
-                        for ((index, value) in items_list.withIndex()) {
-                            if(value.amount == amount && value.name == name && value.unit == unit) {
-                                items_list.removeAt(index)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                {
+                        result ->
+                        val fridgeList: MutableList<FridgeItemViewModel> = result.map {
+                            FridgeItemViewModel(it.value)
+                        }.toMutableList()
+                        items_list = result.map { it.value }.toMutableList()
+                        firebaseApi.deleteAllFridgeItems().enqueue(object: Callback<String?>{
+                            override fun onFailure(call: Call<String?>, t: Throwable) {
+                                println(t.message)
                             }
-                        }
-                        var map: HashMap<String, String>
-                        var inital = true
+                            override fun onResponse(call: Call<String?>, response: Response<String?>) {
+                                println("Success")
+                            }
+                        })
 
-                        if(items_list.size == 0) {
-                            map = hashMapOf("amount" to "", "name" to "", "unit" to "")
-                            val newMap = hashMapOf("gdasgsda324543fds" to map)
-                            firebaseApi.initialInsertFridgeItem(newMap).enqueue(object: Callback<String> {
+                    for ((index, value) in items_list.withIndex()) {
+                        if(value.name == name && value.amount == amount && value.unit == unit){
+                            fridgeList.removeAt(index)
+                        }else{
+                            val map: HashMap<String, String> = hashMapOf("amount" to value.amount, "name" to value.name, "unit" to value.unit)
+                            firebaseApi.insertFridgeItem(map).enqueue(object : Callback<String> {
                                 override fun onFailure(call: Call<String>, t: Throwable) {
                                     println(t.message)
                                 }
@@ -140,34 +148,20 @@ class FridgeActivity : AppCompatActivity() {
                                 }
                             })
                         }
+                    }
 
-                        for(item in items_list){
-                            map = hashMapOf("amount" to item.amount, "name" to item.name, "unit" to item.unit)
-                            if (inital){
-                                inital = false
-
-                                val newMap = hashMapOf("gdsagjdkashgasdjk321412" to map)
-                                firebaseApi.initialInsertFridgeItem(newMap).enqueue(object: Callback<String> {
-                                    override fun onFailure(call: Call<String>, t: Throwable) {
-                                        println(t.message)
-                                    }
-                                    override fun onResponse(call: Call<String>, response: Response<String>) {
-                                        println(response.message())
-                                    }
-                                })
-                            } else {
-                                firebaseApi.insertFridgeItem(map).enqueue(object: Callback<String> {
-                                    override fun onFailure(call: Call<String>, t: Throwable) {
-                                        println(t.message)
-                                    }
-                                    override fun onResponse(call: Call<String>, response: Response<String>) {
-                                        println(response.message())
-                                    }
-                                })
-                            }
+                    with(fridge_rv){
+                        layoutManager = android.support.v7.widget.LinearLayoutManager(this@FridgeActivity)
+                        if (items_list.size == 0){
+                            Toast.makeText(this@FridgeActivity, "You have no ingredients in your fridge", Toast.LENGTH_LONG).show()
                         }
+                        adapter = FridgeAdapter({ item, index ->
+                            onCellTap(item)
+                        }, fridgeList)
+                    }
+
                     },
-                    { error -> Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show() }
+                    { error -> Toast.makeText(this, "There are no ingredients in your fridge", Toast.LENGTH_SHORT).show() }
                 )
         }
 
@@ -198,7 +192,7 @@ class FridgeActivity : AppCompatActivity() {
                         }
                     }
                 },
-                { error -> Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show() }
+                { error -> Toast.makeText(this, "There are no ingredients in your fridge", Toast.LENGTH_SHORT).show() }
             )
     }
 }

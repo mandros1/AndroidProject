@@ -19,7 +19,7 @@
     <item
             android:id="@+id/navigation_shopping"
             android:icon="@drawable/shopping_cart"
-            android:title="Shopping List"/>
+            android:title="Shopping Cart"/>
 
     <item
             android:id="@+id/navigation_fridge"
