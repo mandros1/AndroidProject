@@ -20,6 +20,9 @@
             android:id="@+id/navigation_fridge"
             android:icon="@drawable/fridge"
             android:title="My Fridge"/>
-    <item android:title="Chat" android:id="@+id/chatID"/>
+
+    <item android:title="Chat"
+          android:icon="@drawable/chat_ic"
+          android:id="@+id/chatID"/>
 
 </menu>
