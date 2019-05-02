@@ -45,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
                 createToast("Login was successful")
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
+                emptyFields()
             }
 
             .addOnFailureListener(){
@@ -54,5 +55,10 @@ class LoginActivity : AppCompatActivity() {
 
     fun createToast(text: String){
         Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+    }
+
+    fun emptyFields(){
+        emailLoginTextField.setText("")
+        passwordLoginTextField.setText("")
     }
 }
