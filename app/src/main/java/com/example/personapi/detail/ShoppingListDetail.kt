@@ -43,7 +43,7 @@ class ShoppingListDetail : Fragment() {
         viewModel.shopping_item.observe(this, Observer {
                 shopping_item ->
 
-            // Check if person exists
+            // Check if recipe exists
             shopping_item?.let {
                 // Set the binding ViewModel
                 binding.viewModel = it

@@ -1,7 +1,9 @@
 package com.example.personapi
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -12,29 +14,33 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
-import com.example.personapi.adapters.PersonAdapter
-import com.example.personapi.api_service.PeopleApiService
-import com.example.personapi.models.Name
-import com.example.personapi.models.Person
-import com.example.personapi.models.PersonItemViewModel
-import com.example.personapi.view_models.PersonDetailViewModel
+import com.example.personapi.adapters.RecipeAdapter
+import com.example.personapi.api_service.FirebaseApiService
+import com.example.personapi.models.RecipeItemViewModel
+import com.example.personapi.view_models.RecipeDetailViewModel
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.person_detail_fragment.*
 
 class MainActivity : AppCompatActivity() {
 
     private var disposable: Disposable? = null
     lateinit var toolbar: ActionBar
+    lateinit var sharedPreferences: SharedPreferences
 
-    private val personApiService by lazy {
-        PeopleApiService.create()
+    private val firebaseApiService by lazy {
+        FirebaseApiService.create()
     }
 
-    private lateinit var personDetailViewModel: PersonDetailViewModel
+    private fun save(key: String, value: String){
+        val editor = sharedPreferences.edit()
+        editor.putString(key, value)
+        editor.commit()
+    }
+
+    private lateinit var recipeDetailViewModel: RecipeDetailViewModel
 
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -74,58 +80,50 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        sharedPreferences = getSharedPreferences("appName", Context.MODE_PRIVATE)
+
         loggedInStatus()
 
         toolbar = supportActionBar!!
         val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)
+        bottomNavigation.setSelectedItemId(R.id.navigation_recipes);
         bottomNavigation.setOnNavigationItemSelectedListener (mOnNavigationItemSelectedListener)
 
-        personDetailViewModel = ViewModelProviders.of(this).get(PersonDetailViewModel::class.java)
+        recipeDetailViewModel = ViewModelProviders.of(this).get(RecipeDetailViewModel::class.java)
 
-        disposable = personApiService.getPeople(
-            "3",
-            "10",
-            "abc",
-            "gender,name,nat")
+        disposable = firebaseApiService.getRecipes()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { result ->
-                    val personList: MutableList<PersonItemViewModel> = result.results.map {
-                        PersonItemViewModel(it)
+                    val recipeList: MutableList<RecipeItemViewModel> = result.map {
+                        RecipeItemViewModel(it.value)
                     }.toMutableList()
-                    result.results
-                    val name = result.results[0].name
-                    Toast.makeText(this, "name is $name", Toast.LENGTH_LONG).show()
 
-                    with(person_rv){
+                    with(recipe_rv){
                         layoutManager = android.support.v7.widget.LinearLayoutManager(this@MainActivity)
 
-                        adapter = PersonAdapter({ item, index ->
+                        adapter = RecipeAdapter({ item, index ->
                             onCellTap(item)
-                        }, personList)
+                        }, recipeList)
                     }
 
                 },
                 { error -> Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show() }
             )
 
-
-        val init = Person("",
-            Name("", "", "Welcome"),
-            "")
-        val personVM = PersonItemViewModel(init)
-        personDetailViewModel.person.postValue(personVM)
     }
 
-    fun onCellTap(item: PersonItemViewModel) {
-        // Send cell value
-        if(item.gender == "male"){
-            person_iv.setImageResource(R.drawable.ic_male)
-        } else if(item.gender == "female") {
-            person_iv.setImageResource(R.drawable.ic_female)
-        }
-        personDetailViewModel.person.postValue(item)
+    fun onCellTap(item: RecipeItemViewModel) {
+        save("recipeName", item.name)
+        save("imgUrl", item.imgUrl)
+        save("ingredients", item.ingredients)
+        save("units", item.stringUnits)
+        save("amounts", item.stringAmounts)
+        save("instructions", item.stringInstructions)
+        save("ratings", item.ratings.toString())
+        val myIntent = Intent(baseContext, RecipeDetail::class.java)
+        startActivity(myIntent)
     }
 
     override fun onBackPressed() {}
@@ -149,7 +147,12 @@ class MainActivity : AppCompatActivity() {
             R.id.help -> {
                 val builder = AlertDialog.Builder(this@MainActivity)
                 builder.setTitle("How to use")
-                builder.setMessage("TO DO LATER")
+                builder.setMessage("Browse recipes that you like, click on one to get a broader picture" +
+                        "of what it contains and how to prepare it. When on the detail page of the recipe" +
+                        " you can choose to add all the necessary ingredients to the shopping cart. Browse " +
+                        "ingredients and add them to the shopping list or directly to your fridge if you already own them" +
+                        ". Items can be moved to your fridge or be completely removed from the shopping cart. " +
+                        "Already owned ingredients can be found under My Fridge tab. Also see our amazing chat at the end.")
                 val dialog: AlertDialog = builder.create()
                 dialog.show()
                 true

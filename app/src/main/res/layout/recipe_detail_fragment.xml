@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
                                              xmlns:tools="http://schemas.android.com/tools"
-                                             tools:context=".PeronDetail">
-    <data class="PersonDetailFragmentBinding">
-        <variable name="viewModel" type="com.example.personapi.models.PersonItemViewModel"/>
+                                             tools:context=".RecipeDetail">
+    <data class="RecipeDetailFragmentBinding">
+        <variable name="viewModel" type="com.example.personapi.models.RecipeItemViewModel"/>
     </data>
 
     <android.support.v7.widget.CardView android:layout_width="match_parent"
@@ -21,7 +21,7 @@
                           android:textAlignment="center"
                           android:layout_marginTop="16dp"
                           android:layout_marginBottom="16dp"
-                          android:text="@{viewModel.completeString}"/>
+                          android:text="@{viewModel.name}"/>
             </LinearLayout>
             <LinearLayout
                     android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
                 <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:src="@tools:sample/avatars" android:id="@+id/person_iv"
+                        tools:src="@tools:sample/avatars" android:id="@+id/recipe_iv"
                         android:contentDescription="Image view"/>
             </LinearLayout>
         </LinearLayout>

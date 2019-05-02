@@ -20,8 +20,18 @@ import retrofit2.http.DELETE
 interface FirebaseApiService {
 
     @GET("recipe_list/recipes.json")
-    fun getRecipes(): Observable<Recipes>
+    fun getRecipes(): Observable<Recipe>
 
+    @POST("recipe_list/recipes.json")
+    @Headers(
+        "Accept-Encoding: gzip,deflate",
+        "Content-Type: application/x-www-form-urlencoded",
+        "Accept: Application/Json",
+        "User-Agent: Retrofit 2.3.0"
+    )
+    fun insertRecipe(
+        @Body body: HashMap<String, String>
+    ): Call<String>
 
     // Ingredients handling
     @GET("ingredient_list/ingredients.json")
