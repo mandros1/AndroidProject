@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.personapi">
-
     <uses-permission android:name="android.permission.INTERNET"/>
-
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_logo"
@@ -11,29 +9,28 @@
             android:roundIcon="@mipmap/ic_logo_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".FridgeActivity">
+        <activity
+                android:name=".MainActivity"
+                android:configChanges="orientation|screenSize"
+                android:label="Recipe List">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
-        <activity android:name=".AddIngredientActivity">
+        <activity android:name=".LoginActivity">
         </activity>
+        <activity android:name=".RegisterActivity">
+        </activity>
+        <activity android:name=".FridgeActivity"/>
+        <activity android:name=".AddIngredientActivity"/>
         <activity
                 android:name=".IngredientActivity"
                 android:label="Ingredients List"
                 android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity
-                android:name=".MainActivity"
-                android:configChanges="orientation|screenSize"
-                android:label="Recipe List">
-        </activity>
-        <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <activity android:name=".RegisterActivity">
-
-        </activity>
+        <activity android:name=".CustomerMessages"/>
     </application>
 
 </manifest>

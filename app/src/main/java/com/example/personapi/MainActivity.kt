@@ -18,6 +18,7 @@ import com.example.personapi.models.Name
 import com.example.personapi.models.Person
 import com.example.personapi.models.PersonItemViewModel
 import com.example.personapi.view_models.PersonDetailViewModel
+import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -69,6 +70,8 @@ class MainActivity : AppCompatActivity() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        loggedInStatus()
 
         toolbar = supportActionBar!!
         val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)
@@ -149,10 +152,21 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.logout -> {
-                finish()
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun loggedInStatus(){
+        val uid = FirebaseAuth.getInstance().uid
+        if(uid == null){
+            val intent = Intent(this, RegisterActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
         }
     }
 

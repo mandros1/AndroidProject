@@ -1,9 +1,11 @@
 package com.example.personapi
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
+import com.example.personapi.models.Customer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_register.*
@@ -19,7 +21,9 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
 
         loginTextView.setOnClickListener(){
-            finish()
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
         }
 
         registerButton.setOnClickListener(){
@@ -53,7 +57,9 @@ class RegisterActivity : AppCompatActivity() {
                 if(!it.isSuccessful) return@addOnCompleteListener
                 savingToDatabase()
                 createToast("You have been successfully registered")
-                finish()
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
             }
             .addOnFailureListener(){
                 createToast("Registration failure")
@@ -75,5 +81,4 @@ class RegisterActivity : AppCompatActivity() {
 
     }
 
-    class Customer(val uid: String?, val userName: String)
 }
