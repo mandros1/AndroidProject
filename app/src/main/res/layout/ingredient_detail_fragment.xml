@@ -3,7 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         tools:context=".detail.IngredientDetail">
 
-    <data class="IngredientDetailFragmentBinding">
+    <data class = "IngredientDetailFragmentBinding">
         <variable name="viewModel" type="com.example.personapi.models.IngredientsItemViewModel"/>
     </data>
 
