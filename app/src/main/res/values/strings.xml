@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">PersonAPI</string>
     <string name="title_activity_ingredient">Ingredient</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="neki_kurac_od_slike">nesto</string>
+    <string name="login">Login</string>
+    <string name="registerTextView">Don\'t have an account register!!</string>
+    <string name="username">Username</string>
+    <string name="registerButton">Register</string>
+    <string name="haveAnAccount">Already have an account?</string>
 </resources>

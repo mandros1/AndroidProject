@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "940940133071",
+    "firebase_url": "https://finalkotlin-76751.firebaseio.com",
+    "project_id": "finalkotlin-76751",
+    "storage_bucket": "finalkotlin-76751.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940940133071:android:53f98bfae7e3b40a",
+        "android_client_info": {
+          "package_name": "com.example.personapi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940940133071-fs0l55int9pvc3mqpahlgl2ouko2fvfo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9GD2UdHGX3Z3dI78MXPJ6u1AMTLTXwdE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940940133071-fs0l55int9pvc3mqpahlgl2ouko2fvfo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
