@@ -7,6 +7,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.ActionBar
+import android.support.v7.app.AlertDialog
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Toast
 import com.example.personapi.adapters.PersonAdapter
 import com.example.personapi.api_service.PeopleApiService
@@ -116,6 +120,40 @@ class MainActivity : AppCompatActivity() {
             person_iv.setImageResource(R.drawable.ic_female)
         }
         personDetailViewModel.person.postValue(item)
+    }
+
+    override fun onBackPressed() {}
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.about_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.about -> {
+                val builder = AlertDialog.Builder(this@MainActivity)
+                builder.setTitle("About")
+                builder.setMessage("Created by Robin Skibola and Marin Andros")
+                val dialog: AlertDialog = builder.create()
+                dialog.show()
+                true
+            }
+            R.id.help -> {
+                val builder = AlertDialog.Builder(this@MainActivity)
+                builder.setTitle("How to use")
+                builder.setMessage("TO DO LATER")
+                val dialog: AlertDialog = builder.create()
+                dialog.show()
+                true
+            }
+            R.id.logout -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
 }

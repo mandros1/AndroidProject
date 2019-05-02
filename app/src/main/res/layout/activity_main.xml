@@ -36,8 +36,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:itemBackground="@color/colorBlue"
-            app:itemIconTint="@color/white"
-            app:itemTextColor="@color/white"
+            app:itemIconTint="@color/colorWhite"
+            app:itemTextColor="@color/colorWhite"
             app:menu="@menu/navigation" android:layout_height="wrap_content"/>
 
 </android.support.constraint.ConstraintLayout>
