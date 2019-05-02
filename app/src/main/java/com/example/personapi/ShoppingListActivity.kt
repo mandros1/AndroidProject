@@ -48,9 +48,6 @@ class ShoppingListActivity : AppCompatActivity() {
                 startActivity(myIntent)
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_favorites -> {
-                return@OnNavigationItemSelectedListener true
-            }
             R.id.navigation_shopping -> {
                 val myIntent = Intent(baseContext, ShoppingListActivity::class.java)
                 startActivity(myIntent)
@@ -58,6 +55,11 @@ class ShoppingListActivity : AppCompatActivity() {
             }
             R.id.navigation_fridge -> {
                 val myIntent = Intent(baseContext, FridgeActivity::class.java)
+                startActivity(myIntent)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.chatID -> {
+                val myIntent = Intent(baseContext, CustomerMessages::class.java)
                 startActivity(myIntent)
                 return@OnNavigationItemSelectedListener true
             }
