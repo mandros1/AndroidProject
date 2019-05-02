@@ -1,5 +1,8 @@
 package com.example.personapi.models
 
+import android.os.Parcel
+import android.os.Parcelable
+
 
 data class Request (
     val results: List<Person>,
@@ -35,11 +38,11 @@ data class IngredientElement (
 )
 
 
-typealias Recipes = HashMap<String, RecipesValue>
+typealias Recipe = HashMap<String, RecipeValue>
 
-data class RecipesValue (
+data class RecipeValue(
     val description: String,
-    val imgURL: String,
+    val imgUrl: String,
     val ingredients: List<Ingredient>,
     val instructions: List<String>,
     val name: String,
@@ -49,9 +52,9 @@ data class RecipesValue (
 
 data class Ingredient (
     val amount: String,
-    val name: String
+    val name: String,
+    val unit: String
 )
-
 
 typealias ShoppingList = HashMap<String, ShoppingListValue>
 

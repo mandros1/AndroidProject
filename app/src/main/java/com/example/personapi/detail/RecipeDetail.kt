@@ -8,19 +8,18 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.personapi.view_models.PersonDetailViewModel
+import com.example.personapi.view_models.RecipeDetailViewModel
 import com.example.personapi.R
-import com.example.personapi.databinding.PersonDetailFragmentBinding
+import com.example.personapi.databinding.RecipeDetailFragmentBinding
 
-class PersonDetail: Fragment() {
+class RecipeDetail: Fragment() {
     companion object {
-        fun newInstance() = PersonDetail()
+        fun newInstance() = RecipeDetail()
     }
 
-    private lateinit var viewModel: PersonDetailViewModel
+    private lateinit var viewModel: RecipeDetailViewModel
 
-    // Binding for xml (PersonDetailFragmentBinding only exists after we build the project)
-    private lateinit var binding: PersonDetailFragmentBinding
+    private lateinit var binding: RecipeDetailFragmentBinding
 
 
     override fun onCreateView(
@@ -30,7 +29,7 @@ class PersonDetail: Fragment() {
 
         // Create binding
         binding = DataBindingUtil.inflate(inflater,
-            R.layout.person_detail_fragment,
+            R.layout.recipe_detail_fragment,
             container,
             false)
 
@@ -43,15 +42,15 @@ class PersonDetail: Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         activity?.let {
-            viewModel = ViewModelProviders.of(it).get(PersonDetailViewModel::class.java)
+            viewModel = ViewModelProviders.of(it).get(RecipeDetailViewModel::class.java)
         }
 
         // Observe changes in the ViewModel
-        viewModel.person.observe(this, Observer {
-                person ->
+        viewModel.recipe.observe(this, Observer {
+                recipe ->
 
-            // Check if person exists
-            person?.let {
+            // Check if recipe exists
+            recipe?.let {
                 // Set the binding ViewModel
                 binding.viewModel = it
             }

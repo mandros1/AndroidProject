@@ -12,11 +12,6 @@
             android:title="Ingredients"/>
 
     <item
-            android:id="@+id/navigation_favorites"
-            android:icon="@drawable/favorites"
-            android:title="My Favorites"/>
-
-    <item
             android:id="@+id/navigation_shopping"
             android:icon="@drawable/shopping_cart"
             android:title="Shopping Cart"/>

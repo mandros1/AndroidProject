@@ -43,7 +43,7 @@ class IngredientDetail: Fragment() {
         viewModel.ingredient.observe(this, Observer {
                 ingredient ->
 
-            // Check if person exists
+            // Check if recipe exists
             ingredient?.let {
                 // Set the binding ViewModel
                 binding.viewModel = it

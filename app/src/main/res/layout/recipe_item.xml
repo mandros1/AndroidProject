@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-<data class="PersonItemViewBinding">
+<data class="RecipeItemViewBinding">
     <variable name="viewModel"
-              type="com.example.personapi.models.PersonItemViewModel"
+              type="com.example.personapi.models.RecipeItemViewModel"
     />
 </data>
 
@@ -24,11 +24,22 @@
 
                 <TextView android:layout_width="match_parent"
                           android:layout_height="wrap_content"
-                          android:text="@{viewModel.shortName}"/>
-
+                          android:text="@{viewModel.name}" android:textSize="20sp"/>
                 <TextView android:layout_width="match_parent"
                           android:layout_height="wrap_content"
-                          android:text="@{viewModel.nat}"/>
+                          android:text="@{`Description ` + viewModel.description}" android:textSize="15sp"/>
+                <RatingBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ratingBar"
+                        android:numStars="5"
+                        android:stepSize="0.1"
+                        android:rating="@{viewModel.ratings}"
+                        android:isIndicator="true"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginBottom="8dp"/>
             </LinearLayout>
 
         </LinearLayout>
