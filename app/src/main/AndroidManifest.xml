@@ -31,11 +31,6 @@
                 android:name=".MainActivity"
                 android:configChanges="orientation|screenSize"
                 android:label="Recipe List">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".LoginActivity"
             android:label="MyCookBook Login"
@@ -44,7 +39,13 @@
         <activity android:name=".RegisterActivity"
                   android:label="MyCookBook Register">
         </activity>
-        <activity android:name=".CustomerMessages"/>
+        <activity android:name=".CustomerMessages">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN"/>
+
+            <category android:name="android.intent.category.LAUNCHER"/>
+        </intent-filter>
+        </activity>
     </application>
 
 </manifest>
